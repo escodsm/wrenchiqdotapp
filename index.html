@@ -70,8 +70,8 @@
       VIN scan • AI diagnostics • DIY repair guidance
     </div>
   </div>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
   const supabase = window.supabase.createClient(
     "https://fnsnftcwoshatkjquhyj.supabase.co",
@@ -80,10 +80,13 @@
 
   async function submitEmail() {
     const email = document.querySelector("input").value;
+      console.log("Submitting email:", email);
 
     const { error } = await supabase
       .from("emails")
       .insert([{ email }]);
+
+      console.log("Response:", data, error);
 
     if (error) {
       alert("Something went wrong");
@@ -92,4 +95,8 @@
     }
   }
 </script>
+
+
+</body>
+
 </html>
