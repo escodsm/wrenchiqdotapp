@@ -93,12 +93,12 @@ button:disabled {
   <div class="container">
     <img src="/img/wrenchLogo.png" alt="WrenchIQ logo" class="logo" />
     <h1>WrenchIQ</h1>
-    <p>Your pocket mechanic. Get instant help diagnosing and fixing your car.</p>
-
+    <p>Your pocket mechanic. Get instant help diagnosing and fixing your car - coming soon to iOS!</p>
+    <p>Sign up to be notified when we launch:</p>
     <div class="cta">
       <input id="emailInput" type="email" placeholder="Enter your email" />
       <button id="submitBtn">
-  <span id="btnText">Get Early Signup</span>
+  <span id="btnText">Get Notified</span>
   <span id="spinner" class="spinner" style="display:none;"></span>
 </button>
       <div class="status" id="statusMsg"></div>
@@ -144,7 +144,7 @@ button:disabled {
 
   // 🔓 Re-enable + hide spinner
   button.disabled = false;
-  document.getElementById("btnText").textContent = "Get Early Signup";
+  document.getElementById("btnText").textContent = "Get Notified";
   document.getElementById("spinner").style.display = "none";
 
   if (error) {
