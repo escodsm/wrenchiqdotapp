@@ -54,6 +54,11 @@
       font-size: 0.9rem;
       color: #64748b;
     }
+    .status {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
   </style>
 </head>
 <body>
@@ -62,8 +67,9 @@
     <p>Your pocket mechanic. Get instant help diagnosing and fixing your car.</p>
 
     <div class="cta">
-      <input type="email" placeholder="Enter your email" />
-      <button onclick="submitEmail()">Get Early Signup</button>
+      <input id="emailInput" type="email" placeholder="Enter your email" />
+      <button onclick="submitEmail()">Get Early Access</button>
+      <div class="status" id="statusMsg"></div>
     </div>
 
     <div class="tag">
@@ -72,31 +78,36 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<script>
-  const supabase = window.supabase.createClient(
-    "https://fnsnftcwoshatkjquhyj.supabase.co",
-    "sb_publishable_iRmZKqe9vTjABBZq73cTkw_n4tFAxgr"
-  );
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://fnsnftcwoshatkjquhyj.supabase.co",
+      "sb_publishable_iRmZKqe9vTjABBZq73cTkw_n4tFAxgr"
+    );
 
-  async function submitEmail() {
-    const email = document.querySelector("input").value;
-      console.log("Submitting email:", email);
+    window.submitEmail = async function () {
+      const email = document.getElementById("emailInput").value;
+      const status = document.getElementById("statusMsg");
 
-    const { error } = await supabase
-      .from("emails")
-      .insert([{ email }]);
+      if (!email || !email.includes("@")) {
+        status.textContent = "Please enter a valid email.";
+        return;
+      }
+
+      status.textContent = "Submitting...";
+
+      const { data, error } = await supabase
+        .from("emails")
+        .insert([{ email }]);
 
       console.log("Response:", data, error);
 
-    if (error) {
-      alert("Something went wrong");
-    } else {
-      alert("You're in 🔧");
-    }
-  }
-</script>
-
-
+      if (error) {
+        status.textContent = "Something went wrong.";
+      } else {
+        status.textContent = "You're in 🔧";
+        document.getElementById("emailInput").value = "";
+      }
+    };
+  </script>
 </body>
-
 </html>
