@@ -68,7 +68,7 @@
 
     <div class="cta">
       <input id="emailInput" type="email" placeholder="Enter your email" />
-      <button onclick="submitEmail()">Get Early Access</button>
+      <button id="submitBtn">Get Early Signup</button>
       <div class="status" id="statusMsg"></div>
     </div>
 
@@ -78,18 +78,24 @@
   </div>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
     const supabase = window.supabase.createClient(
       "https://fnsnftcwoshatkjquhyj.supabase.co",
       "sb_publishable_iRmZKqe9vTjABBZq73cTkw_n4tFAxgr"
     );
 
-    window.submitEmail = async function () {
-      const email = document.getElementById("emailInput").value;
-      const status = document.getElementById("statusMsg");
+    const button = document.getElementById("submitBtn");
+    const input = document.getElementById("emailInput");
+    const status = document.getElementById("statusMsg");
+
+    button.addEventListener("click", async () => {
+      const email = input.value;
+      console.log("Submitting:", email);
 
       if (!email || !email.includes("@")) {
-        status.textContent = "Please enter a valid email.";
+        status.textContent = "Enter a valid email";
         return;
       }
 
@@ -99,15 +105,16 @@
         .from("emails")
         .insert([{ email }]);
 
-      console.log("Response:", data, error);
+      console.log(data, error);
 
       if (error) {
-        status.textContent = "Something went wrong.";
+        status.textContent = "Error: " + error.message;
       } else {
         status.textContent = "You're in 🔧";
-        document.getElementById("emailInput").value = "";
+        input.value = "";
       }
-    };
-  </script>
+    });
+  });
+</script>
 </body>
 </html>
