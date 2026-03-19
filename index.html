@@ -71,4 +71,25 @@
     </div>
   </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabase = window.supabase.createClient(
+    "https://fnsnftcwoshatkjquhyj.supabase.co",
+    "sb_publishable_iRmZKqe9vTjABBZq73cTkw_n4tFAxgr"
+  );
+
+  async function submitEmail() {
+    const email = document.querySelector("input").value;
+
+    const { error } = await supabase
+      .from("emails")
+      .insert([{ email }]);
+
+    if (error) {
+      alert("Something went wrong");
+    } else {
+      alert("You're in 🔧");
+    }
+  }
+</script>
 </html>
