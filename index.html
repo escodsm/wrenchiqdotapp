@@ -7,16 +7,17 @@
   <title>WrenchIQ</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
+  margin: 0;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+
+  display: flex;
+  justify-content: center;
+
+  min-height: 100dvh;
+  padding: 20px; /* <-- important: prevents edge overflow */
+}
     .container {
       max-width: 600px;
       padding: 20px;
@@ -35,16 +36,20 @@
       margin-top: 25px;
     }
     .form-row {
-      display: flex;
-      gap: 10px;
-      width: 100%;
+        display: flex;
+        gap: 10px;
+        width: 100%;
     }
+
     input {
-      padding: 12px;
-      width: 70%;
-      border-radius: 6px;
-      border: none;
+        flex: 1;
+        min-width: 0;
     }
+
+    html, body {
+    overflow-x: hidden;
+    }
+
     button {
       padding: 12px 18px;
       border-radius: 6px;
