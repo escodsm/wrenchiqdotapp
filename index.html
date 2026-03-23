@@ -71,6 +71,14 @@
       margin-top: 10px;
       font-size: 0.9rem;
       color: #94a3b8;
+      min-height: 1.25rem;
+      transition: color 0.2s ease;
+    }
+    .status.status-error {
+      color: #fca5a5;
+    }
+    .status.status-success {
+      color: #86efac;
     }
 
     .spinner {
@@ -138,11 +146,16 @@
     const input = document.getElementById("emailInput");
     const status = document.getElementById("statusMsg");
 
+    function setStatus(message, type = "") {
+      status.textContent = message;
+      status.className = "status" + (type ? ` status-${type}` : "");
+    }
+
     button.addEventListener("click", async () => {
   const email = input.value;
 
   if (!email || !email.includes("@")) {
-    status.textContent = "Enter a valid email";
+    setStatus("Enter a valid email", "error");
     return;
   }
 
@@ -150,7 +163,7 @@
   button.disabled = true;
   document.getElementById("btnText").textContent = "Submitting";
   document.getElementById("spinner").style.display = "inline-block";
-  status.textContent = "";
+  setStatus("");
 
   const { data, error } = await supabase
     .from("emails")
@@ -164,9 +177,14 @@
   document.getElementById("spinner").style.display = "none";
 
   if (error) {
-    status.textContent = "Error: " + error.message;
+    if (error.code === "23505" || error.message.includes('unique constraint "unique_email"')) {
+      setStatus("That email is already registered", "error");
+    } else {
+      setStatus("Something went wrong. Please try again.", "error");
+      console.error(error);
+    }
   } else {
-    status.textContent = "You're in 🔧";
+    setStatus("You're in 🔧", "success");
     input.value = "";
   }
 });
